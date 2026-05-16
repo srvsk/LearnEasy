@@ -1,0 +1,113 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- ===== Palette: bright, warm, high-contrast for young eyes ===== -->
+    <Color x:Key="Sky">#FF7EC8E3</Color>
+    <Color x:Key="Sunshine">#FFFFD166</Color>
+    <Color x:Key="Coral">#FFEF6F6C</Color>
+    <Color x:Key="Mint">#FF06D6A0</Color>
+    <Color x:Key="Grape">#FF7B5EA7</Color>
+    <Color x:Key="Ink">#FF2B2D42</Color>
+
+    <SolidColorBrush x:Key="AppBackgroundBrush" Color="#FFFFF7E8" />
+    <SolidColorBrush x:Key="CardBrush" Color="White" />
+    <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Grape}" />
+    <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource Mint}" />
+    <SolidColorBrush x:Key="WarnBrush" Color="{StaticResource Coral}" />
+    <SolidColorBrush x:Key="InkBrush" Color="{StaticResource Ink}" />
+    <SolidColorBrush x:Key="SkyBrush" Color="{StaticResource Sky}" />
+    <SolidColorBrush x:Key="SunshineBrush" Color="{StaticResource Sunshine}" />
+
+    <!-- Comic-style font with safe fallbacks. -->
+    <FontFamily x:Key="KidFont">Comic Sans MS, Segoe UI Rounded, Segoe UI</FontFamily>
+
+    <!-- ===== Rounded card container ===== -->
+    <Style x:Key="Card" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource CardBrush}" />
+        <Setter Property="CornerRadius" Value="24" />
+        <Setter Property="Padding" Value="28" />
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect BlurRadius="24" ShadowDepth="0" Opacity="0.18" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ===== Big friendly button ===== -->
+    <Style x:Key="BigButton" TargetType="Button">
+        <Setter Property="FontFamily" Value="{StaticResource KidFont}" />
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Background" Value="{StaticResource PrimaryBrush}" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Padding" Value="22,12" />
+        <Setter Property="Margin" Value="6" />
+        <Setter Property="MinWidth" Value="120" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="b" Background="{TemplateBinding Background}"
+                            CornerRadius="18" Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="b" Property="Opacity" Value="0.88" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="b" Property="Opacity" Value="0.4" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="AccentButton" TargetType="Button" BasedOn="{StaticResource BigButton}">
+        <Setter Property="Background" Value="{StaticResource AccentBrush}" />
+    </Style>
+
+    <Style x:Key="GhostButton" TargetType="Button" BasedOn="{StaticResource BigButton}">
+        <Setter Property="Background" Value="{StaticResource SkyBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
+    </Style>
+
+    <!-- ===== Headline / body text ===== -->
+    <Style x:Key="Headline" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource KidFont}" />
+        <Setter Property="FontSize" Value="34" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="Body" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource KidFont}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <!-- ===== Big spelling input box ===== -->
+    <Style x:Key="SpellingBox" TargetType="TextBox">
+        <Setter Property="FontFamily" Value="{StaticResource KidFont}" />
+        <Setter Property="FontSize" Value="40" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="Padding" Value="16" />
+        <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
+        <Setter Property="CaretBrush" Value="{StaticResource PrimaryBrush}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border Background="#FFF1ECFA" CornerRadius="16" Padding="6">
+                        <ScrollViewer x:Name="PART_ContentHost" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

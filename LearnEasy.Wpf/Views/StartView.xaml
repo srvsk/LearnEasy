@@ -1,0 +1,67 @@
+<UserControl x:Class="LearnEasy.Wpf.Views.StartView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:conv="clr-namespace:LearnEasy.Wpf.Infrastructure">
+    <UserControl.Resources>
+        <conv:AvatarGlyphConverter x:Key="Avatar" />
+    </UserControl.Resources>
+
+    <Viewbox Stretch="Uniform" StretchDirection="DownOnly">
+        <Border Style="{StaticResource Card}" Width="820">
+            <StackPanel>
+                <TextBlock Style="{StaticResource Headline}"
+                           Text="👋 Who's learning today?" HorizontalAlignment="Center" />
+                <TextBlock Style="{StaticResource Body}" Margin="0,8,0,24"
+                           HorizontalAlignment="Center"
+                           Text="Pick your name, or make a new one!" />
+
+                <!-- Existing learners -->
+                <ListBox ItemsSource="{Binding Learners}"
+                         SelectedItem="{Binding SelectedLearner}"
+                         BorderThickness="0" Background="Transparent"
+                         MaxHeight="220" Margin="0,0,0,20">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border CornerRadius="16" Padding="18,12" Margin="6"
+                                    Background="#FFF1ECFA">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding AvatarKey, Converter={StaticResource Avatar}}"
+                                               FontSize="40" HorizontalAlignment="Center" />
+                                    <TextBlock Text="{Binding DisplayName}"
+                                               Style="{StaticResource Body}"
+                                               HorizontalAlignment="Center" />
+                                    <TextBlock Style="{StaticResource Body}" FontSize="14"
+                                               HorizontalAlignment="Center" Foreground="#FF8A8A9E"
+                                               Text="{Binding TotalPoints, StringFormat='⭐ {0} pts'}" />
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                <Button Content="▶  Start Spelling!" Style="{StaticResource BigButton}"
+                        HorizontalAlignment="Center" Command="{Binding StartCommand}" />
+
+                <Separator Margin="0,28" />
+
+                <!-- New learner -->
+                <TextBlock Style="{StaticResource Body}" FontWeight="Bold"
+                           Text="✨ New here? Make a learner:" />
+                <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                    <TextBox Width="280" FontSize="20" Padding="12" Margin="0,0,12,0"
+                             Text="{Binding NewLearnerName, UpdateSourceTrigger=PropertyChanged}" />
+                    <ComboBox Width="120" FontSize="18"
+                              ItemsSource="{Binding Avatars}"
+                              SelectedItem="{Binding SelectedAvatar}" />
+                    <Button Content="Create" Style="{StaticResource AccentButton}"
+                            Command="{Binding CreateCommand}" />
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Viewbox>
+</UserControl>

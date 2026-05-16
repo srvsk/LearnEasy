@@ -1,0 +1,137 @@
+<UserControl x:Class="LearnEasy.Wpf.Views.LessonView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:conv="clr-namespace:LearnEasy.Wpf.Infrastructure">
+    <UserControl.Resources>
+        <conv:AvatarGlyphConverter x:Key="Avatar" />
+        <conv:BoolToVisibilityConverter x:Key="Bool" />
+        <conv:StringToVisibilityConverter x:Key="Str" />
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- ===== Header: learner card + stats ===== -->
+        <Border Grid.Row="0" Style="{StaticResource Card}" Padding="20" Margin="0,0,0,20">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding AvatarKey, Converter={StaticResource Avatar}}" FontSize="44" />
+                    <TextBlock Text="{Binding LearnerName}" Style="{StaticResource Headline}"
+                               FontSize="26" Margin="14,0,0,0" VerticalAlignment="Center" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal"
+                            HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Style="{StaticResource Body}" Margin="14,0"
+                               Text="{Binding Level, StringFormat='🏅 Level {0}'}" />
+                    <TextBlock Style="{StaticResource Body}" Margin="14,0"
+                               Text="{Binding Points, StringFormat='⭐ {0} pts'}" />
+                    <TextBlock Style="{StaticResource Body}" Margin="14,0"
+                               Text="{Binding Streak, StringFormat='🔥 {0} streak'}" />
+                    <TextBlock Style="{StaticResource Body}" Margin="14,0"
+                               Text="{Binding Difficulty, StringFormat='🎯 {0}'}" />
+                </StackPanel>
+
+                <Button Grid.Column="2" Content="✖ Exit" Style="{StaticResource GhostButton}"
+                        FontSize="16" Padding="14,8" Command="{Binding BackCommand}" />
+            </Grid>
+        </Border>
+
+        <!-- ===== Lesson area ===== -->
+        <Border Grid.Row="1" Style="{StaticResource Card}">
+            <Grid>
+                <!-- Active spelling turn -->
+                <StackPanel VerticalAlignment="Center"
+                            Visibility="{Binding ShowResult, Converter={StaticResource Bool}, ConverterParameter=invert}">
+                    <TextBlock Style="{StaticResource Headline}" HorizontalAlignment="Center"
+                               Text="{Binding Prompt}" />
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,18">
+                        <Button Content="🔊 Say it again" Style="{StaticResource GhostButton}"
+                                Command="{Binding SpeakAgainCommand}" />
+                        <Button Content="💡 Hint" Style="{StaticResource AccentButton}"
+                                Command="{Binding HintCommand}" />
+                    </StackPanel>
+
+                    <Border Background="#FFFFF3CF" CornerRadius="14" Padding="16" Margin="40,4,40,16"
+                            Visibility="{Binding HintText, Converter={StaticResource Str}}">
+                        <TextBlock Style="{StaticResource Body}" HorizontalAlignment="Center"
+                                   Text="{Binding HintText}" />
+                    </Border>
+
+                    <TextBox Style="{StaticResource SpellingBox}" Width="520" Margin="0,8"
+                             Text="{Binding TypedAnswer, UpdateSourceTrigger=PropertyChanged}">
+                        <TextBox.InputBindings>
+                            <KeyBinding Key="Enter" Command="{Binding SubmitCommand}" />
+                        </TextBox.InputBindings>
+                    </TextBox>
+
+                    <Button Content="✅ Check my spelling" Style="{StaticResource BigButton}"
+                            HorizontalAlignment="Center" Margin="0,12,0,0"
+                            Command="{Binding SubmitCommand}" />
+                </StackPanel>
+
+                <!-- Result panel -->
+                <StackPanel VerticalAlignment="Center"
+                            Visibility="{Binding ShowResult, Converter={StaticResource Bool}}">
+                    <TextBlock FontSize="44"
+                               HorizontalAlignment="Center"
+                               Text="{Binding Feedback}">
+                        <TextBlock.Style>
+                            <!-- BasedOn pulls in the Headline look; the trigger
+                                 swaps green (correct) vs coral (try again). -->
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource Headline}">
+                                <Setter Property="Foreground" Value="{StaticResource WarnBrush}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding WasCorrect}" Value="True">
+                                        <Setter Property="Foreground" Value="{StaticResource AccentBrush}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+                    <TextBlock Style="{StaticResource Body}" HorizontalAlignment="Center" Margin="0,12"
+                               Foreground="{StaticResource WarnBrush}"
+                               Visibility="{Binding CorrectSpelling, Converter={StaticResource Str}}"
+                               Text="{Binding CorrectSpelling, StringFormat='The correct spelling is: {0}'}" />
+
+                    <ItemsControl ItemsSource="{Binding NewBadges}" HorizontalAlignment="Center" Margin="0,8">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="#FFFFE9A8" CornerRadius="14" Padding="16,10" Margin="6">
+                                    <TextBlock Style="{StaticResource Body}"
+                                               Text="{Binding StringFormat='🏆 New badge: {0}'}" />
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <Button Content="➡ Next word" Style="{StaticResource BigButton}"
+                            HorizontalAlignment="Center" Margin="0,18,0,0"
+                            Command="{Binding NextCommand}" />
+                </StackPanel>
+
+                <!-- Busy overlay -->
+                <Border Background="#CCFFFFFF" CornerRadius="24"
+                        Visibility="{Binding IsBusy, Converter={StaticResource Bool}}">
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBlock Text="🐥" FontSize="56" HorizontalAlignment="Center" />
+                        <TextBlock Style="{StaticResource Body}" Text="One moment…"
+                                   HorizontalAlignment="Center" Margin="0,8,0,0" />
+                        <ProgressBar IsIndeterminate="True" Width="220" Height="10" Margin="0,12,0,0" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

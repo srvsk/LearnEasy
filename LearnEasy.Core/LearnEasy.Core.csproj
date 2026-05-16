@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    LearnEasy.Core
+    Pure domain layer: entities, value objects, DTOs and service abstractions.
+    Has NO dependencies on EF Core, WPF, Ollama or Piper so it stays testable
+    and reusable (e.g. a future ASP.NET API or multiplayer spelling-bee host).
+  -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

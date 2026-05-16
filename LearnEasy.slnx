@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="LearnEasy.Core/LearnEasy.Core.csproj" />
+    <Project Path="LearnEasy.Data/LearnEasy.Data.csproj" />
+    <Project Path="LearnEasy.Services/LearnEasy.Services.csproj" />
+    <Project Path="LearnEasy.Wpf/LearnEasy.Wpf.csproj" />
+  </Folder>
+  <Folder Name="/aspire/">
+    <Project Path="LearnEasy.AppHost/LearnEasy.AppHost.csproj" />
+    <Project Path="LearnEasy.ServiceDefaults/LearnEasy.ServiceDefaults.csproj" />
+  </Folder>
+</Solution>

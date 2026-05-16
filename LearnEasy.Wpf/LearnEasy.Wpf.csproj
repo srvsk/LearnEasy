@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    LearnEasy.Wpf
+    The kid-facing desktop UI (WPF, MVVM). Composes Data + Services via the
+    generic host. Windows-only because of WPF + System.Speech fallback.
+  -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AssemblyName>LearnEasy</AssemblyName>
+    <RootNamespace>LearnEasy.Wpf</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LearnEasy.Core\LearnEasy.Core.csproj" />
+    <ProjectReference Include="..\LearnEasy.Data\LearnEasy.Data.csproj" />
+    <ProjectReference Include="..\LearnEasy.Services\LearnEasy.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="10.0.0" />
+    <!-- Last-resort speech if Piper isn't installed. Windows-only, fine here. -->
+    <PackageReference Include="System.Speech" Version="10.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

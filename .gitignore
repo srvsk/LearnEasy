@@ -1,0 +1,70 @@
+# Visual Studio C# and WCF project ignores
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+*.vspscc
+*.vssscc
+*.DotSettings.user
+*.VC.db
+*.VC.opendb
+*.ncb
+*.opendb
+*.cache
+
+# Visual Studio temporary files, build results, and logs
+[Bb]in/
+[Oo]bj/
+bin/
+obj/
+TestResults/
+BuildLog.*
+*.log
+*.tlog
+*.lastbuildstate
+*.vs/
+
+# NuGet packages
+*.nupkg
+packages/
+project.lock.json
+**/project.fragment.lock.json
+
+# ASP.NET / Aspire project files
+*.publish.xml
+*.pubxml.user
+*.azurePubxml
+
+# WCF generated files
+*.svcinfo
+*.svcmap
+Service.svcinfo
+Service.svcmap
+
+# Publish outputs
+*.deploy.cmd
+*.sqlpackage
+PublishedWebsites/
+
+# Rider / IntelliJ
+.idea/
+*.sln.iml
+
+# Build output
+*.dll
+*.exe
+*.pdb
+*.cache
+*.ilk
+*.meta
+
+# Other
+artifacts/
+*.vsix
+*.userprefs
+
+.claude/
+
+presentation/
